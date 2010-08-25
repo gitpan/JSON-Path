@@ -29,4 +29,4 @@ resources:
   homepage: http://search.cpan.org/dist/JSON-Path/
   license: http://opensource.org/licenses/mit-license.php
   repository: http://goddamn.co.uk/viewvc/perlmods/JSON-Path/
-version: 0.080_01
+version: 0.100

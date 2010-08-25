@@ -4,7 +4,7 @@ use 5.008;
 use common::sense;
 use overload '""' => \&to_string;
 
-our $VERSION = '0.080_01';
+our $VERSION = '0.100';
 our $Safe    = 1;
 
 use Error qw[:try];
@@ -64,7 +64,9 @@ use 5.008;
 use common::sense;
 
 use Error qw[:try];
-use Scalar::Util qw[looks_like_number];
+use Scalar::Util qw[blessed];
+
+our $VERSION = '0.100';
 
 sub new
 {
@@ -136,14 +138,14 @@ sub trace
 		$x    = join ';', @x;
 	}
 	
-	if (ref $val eq 'ARRAY'
-	and looks_like_number($loc)
+	# in Perl need to distinguish between arrays and hashes.
+	if (isArray($val)
+	and $loc =~ /^\-?[0-9]+$/
 	and exists $val->[$loc])
 	{
 		$self->trace($x, $val->[$loc], sprintf('%s;%s', $path, $loc));
 	}
-	# in Perl need to distinguish between arrays and hashes.
-	elsif (ref $val eq 'HASH'
+	elsif (isObject($val)
 	and exists $val->{$loc})
 	{
 		$self->trace($x, $val->{$loc}, sprintf('%s;%s', $path, $loc));
@@ -188,13 +190,13 @@ sub _callback_04
 {
 	my ($self, $m, $l, $x, $v, $p) = @_;
 
-	if (ref $v eq 'ARRAY'
-	and ref($v->[$m]) =~ m'^(ARRAY|HASH)$')
+	if (isArray($v)
+	and isArray($v->[$m]) || isObject($v->[$m]))
 	{
 		$self->trace("..;".$x, $v->[$m], $p.";".$m);
 	}
-	elsif (ref $v eq 'HASH'
-	and ref($v->{$m}) =~ m'^(ARRAY|HASH)$')
+	elsif (isObject($v)
+	and isArray($v->{$m}) || isObject($v->{$m}))
 	{
 		$self->trace("..;".$x, $v->{$m}, $p.";".$m);
 	}
@@ -207,11 +209,11 @@ sub _callback_05
 	$l =~ s/^\?\((.*?)\)$/$1/g;
 	
 	my $evalx;
-	if (ref $v eq 'ARRAY')
+	if (isArray($v))
 	{
 		$evalx = $self->evalx($l, $v->[$m]);
 	}
-	elsif (ref $v eq 'HASH')
+	elsif (isObject($v))
 	{
 		$evalx = $self->evalx($l, $v->{$m});
 	}
@@ -224,14 +226,14 @@ sub walk
 {
 	my ($self, $loc, $expr, $val, $path, $f) = @_;
 
-	if (ref $val eq 'ARRAY')
+	if (isArray($val))
 	{
 		map {
 			$f->($self, $_, $loc, $expr, $val, $path);
 		} 0..scalar @$val;
 	}
 
-	elsif (ref $val eq 'HASH')
+	elsif (isObject($val))
 	{
 		map {
 			$f->($self, $_, $loc, $expr, $val, $path);
@@ -297,6 +299,22 @@ sub evalx
 	return $res;
 }
 
+sub isObject
+{
+	my $obj = shift;
+	return 1 if ref($obj) eq 'HASH';
+	return 1 if blessed($obj) && $obj->can('typeof') && $obj->typeof eq 'HASH';
+	return;
+}
+
+sub isArray
+{
+	my $obj = shift;
+	return 1 if ref($obj) eq 'ARRAY';
+	return 1 if blessed($obj) && $obj->can('typeof') && $obj->typeof eq 'ARRAY';
+	return;
+}
+
 1;
 
 __END__
@@ -356,6 +374,8 @@ JSON-like structures.
 
 JSONPath is described at L<http://goessner.net/articles/JsonPath/>.
 
+This module is JSON::JOM-compatible.
+
 =head2 Constructor
 
 =over 4
@@ -398,6 +418,12 @@ stringify itself as appropriate. i.e. the following works:
 
 =back
 
+=head1 PERL SPECIFICS
+
+JSONPath is intended as a cross-programming-language method of
+searching nested object structures. There are however, some things
+you need to think about when using JSONPath in Perl...
+
 =head2 JSONPath Embedded Perl Expressions
 
 JSONPath expressions may contain subexpressions that are evaluated
@@ -427,6 +453,18 @@ instead.
 
 =back
 
+=head2 Blessed Objects
+
+Blessed objects are generally treated as atomic values; JSON::Path
+will not follow paths inside them. The exception to this rule are blessed
+objects where:
+
+  Scalar::Util::blessed($object)
+  && $object->can('typeof')
+  && $object->typeof =~ /^(ARRAY|HASH)$/
+
+which are treated as an unblessed arrayref or hashref appropriately.
+
 =head1 BUGS
 
 Please report any bugs to L<http://rt.cpan.org/>.
@@ -438,7 +476,14 @@ Specification: L<http://goessner.net/articles/JsonPath/>.
 Implementations in PHP, Javascript and C#:
 L<http://code.google.com/p/jsonpath/>.
 
-Related modules: L<JSON>, L<JSON::T>.
+Related modules: L<JSON>, L<JSON::JOM>, L<JSON::T>, L<JSON::GRDDL>,
+L<JSON::Hyper>, L<JSON::Schema>.
+
+Similar functionality: L<Data::Path>, L<Data::DPath>, L<Data::SPath>,
+L<Hash::Path>, L<Path::Resolver::Resolver::Hash>, L<Data::Nested>,
+L<Data::Hierarchy>... yes, the idea's not especially new. What's different
+is that JSON::Path uses a vaguely standardised syntax with implementations
+in at least three other programming languages.
 
 =head1 AUTHOR
 
@@ -453,6 +498,10 @@ See L<http://code.google.com/p/jsonpath/>.
 Copyright 2007 Stefan Goessner.
 
 Copyright 2010 Toby Inkster.
+
+This module is tri-licensed. It is available under the X11 (a.k.a. MIT)
+licence; you can also redistribute it and/or modify it under the same
+terms as Perl itself.
 
 =head2 a.k.a. "The MIT Licence"
 
