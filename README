@@ -65,8 +65,6 @@ DESCRIPTION
         Returns a list of structures from within $object which match against
         the JSONPath expression.
 
-        This method will sometimes throw an error using the Error module.
-
     "paths($object)"
         As per "values" but instead of returning structures which match the
         expression, returns paths that point towards those structures.

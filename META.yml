@@ -3,30 +3,32 @@ abstract: 'search nested hashref/arrayref structures using JSONPath'
 author:
   - 'Toby Inkster <tobyink@cpan.org>'
 build_requires:
-  ExtUtils::MakeMaker: 6.42
+  ExtUtils::MakeMaker: 6.59
   Test::More: 0.61
 configure_requires:
-  ExtUtils::MakeMaker: 6.42
+  ExtUtils::MakeMaker: 6.59
 distribution_type: module
-generated_by: 'Module::Install version 1.00'
+dynamic_config: 0
+generated_by: 'Module::Install version 1.06'
+keywords: []
 license: mit
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
+module_name: JSON::Path
 name: JSON-Path
 no_index:
   directory:
+    - examples
     - inc
     - t
+    - xt
 requires:
-  Error: 0
-  JSON: 0
-  Scalar::Util: 0
-  common::sense: 0
+  JSON: 2.00
   perl: 5.8.0
 resources:
   bugtracker: http://rt.cpan.org/Dist/Display.html?Queue=JSON-Path
   homepage: https://metacpan.org/release/JSON-Path
-  license: http://opensource.org/licenses/mit-license.php
-  repository: http://goddamn.co.uk/svn-web/perlmods/browse/JSON-Path/
-version: 0.101
+  license: http://www.opensource.org/licenses/mit-license.php
+  repository: https://bitbucket.org/tobyink/p5-json-path
+version: 0.200
