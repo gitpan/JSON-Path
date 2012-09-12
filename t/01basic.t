@@ -1,7 +1,5 @@
-use Test::More tests => 9;
+use Test::More tests => 10;
 BEGIN { use_ok('JSON::Path') };
-
-use Error qw[:try];
 
 use JSON;
 my $object = from_json(<<'JSON');
@@ -55,13 +53,11 @@ is($results2->{isbn}, "0-395-19395-8", "hashref seems to be correct");
 
 ok($JSON::Path::Safe, "safe by default");
 
-try {
+ok(!eval {
 	my $path3 = JSON::Path->new('$..book[?($_->{author} =~ /tolkien/i)]');
 	my $results3 = $path3->values($object);
-}
-catch Error::Simple with {
-	ok(1, "disallow dangerous eval");
-}
+	1;
+}, "eval disabled by default");
 
 $JSON::Path::Safe = 0;
 

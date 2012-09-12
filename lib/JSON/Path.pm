@@ -5,7 +5,7 @@ use strict qw(vars subs);
 use overload '""' => \&to_string;
 no warnings;
 
-our $VERSION = '0.200';
+our $VERSION = '0.201';
 our $Safe    = 1;
 
 use Carp;
@@ -68,7 +68,7 @@ no warnings;
 use Carp;
 use Scalar::Util qw[blessed];
 
-our $VERSION = '0.200';
+our $VERSION = '0.201';
 
 sub new
 {
