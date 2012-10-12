@@ -31,4 +31,6 @@ meta/makefile.pret
 README
 t/01basic.t
 t/02zeroth.t
+t/03shortcuts.t
+t/04map.t
 SIGNATURE                                Public-key signature (added by MakeMaker)

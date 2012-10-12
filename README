@@ -41,16 +41,14 @@ SYNOPSIS
      my @authors = $jpath->values($data);
  
      # The author of the last (by order) book
-     my $jpath     = JSON::Path->new('$..book[-1:]');
-     my ($tolkien) = $jpath->values($data);
+     my $jpath   = JSON::Path->new('$..book[-1:]');
+     my $tolkien = $jpath->value($data);
 
 DESCRIPTION
     This module implements JSONPath, an XPath-like language for searching
     JSON-like structures.
 
     JSONPath is described at <http://goessner.net/articles/JsonPath/>.
-
-    This module is JSON::JOM-compatible.
 
   Constructor
     "JSON::Path->new($string)"
@@ -63,11 +61,36 @@ DESCRIPTION
         JSON string capable of being decoded by JSON::from_json.
 
         Returns a list of structures from within $object which match against
-        the JSONPath expression.
+        the JSONPath expression. In scalar context, returns the number of
+        matches.
+
+    "value($object)"
+        Like "values", but returns just the first value. This method is an
+        lvalue sub, which means you can assign to it:
+
+          $path->values('$.name') = 'Bob';
 
     "paths($object)"
         As per "values" but instead of returning structures which match the
-        expression, returns paths that point towards those structures.
+        expression, returns canonical JSONPaths that point towards those
+        structures.
+
+    "get($object)"
+        In list context, identical to "values", but in scalar context
+        returns the first result.
+
+    "set($object, $value, $limit)"
+        Alters $object, setting the paths to $value. If set, then $limit
+        limits the number of changes made.
+
+        Returns the number of changes made.
+
+    "map($object, $coderef)"
+        Conceptually similar to Perl's "map" keyword. Executes the coderef
+        (in scalar context!) for each match of the path within the object,
+        and sets a new value from the coderef's return value. Within the
+        coderef, $_ may be used to access the old value, and $. may be used
+        to access the curent canonical JSONPath.
 
     "to_string"
         Returns the original JSONPath expression as a string.
@@ -78,6 +101,21 @@ DESCRIPTION
 
          my $jpath = JSON::Path->new('$.store.book[*].author');
          print "I'm looking for: " . $jpath . "\n";
+
+  Functions
+    The following functions are available for export, but are not exported
+    by default:
+
+    "jpath($object, $path_string)"
+        Shortcut for "JSON::Path->new($path_string)->values($object)". That
+        is, it can be used as an lvalue.
+
+    "jpath1($object, $path_string)"
+        Shortcut for "JSON::Path->new($path_string)->value($object)". That
+        is, it can be used as an lvalue.
+
+    "jpath_map { CODE } $object, $path_string"
+        Shortcut for "JSON::Path->new($path_string)->map($object, $code)".
 
 PERL SPECIFICS
     JSONPath is intended as a cross-programming-language method of searching
@@ -145,7 +183,7 @@ AUTHOR
 COPYRIGHT AND LICENCE
     Copyright 2007 Stefan Goessner.
 
-    Copyright 2010-2011 Toby Inkster.
+    Copyright 2010-2012 Toby Inkster.
 
     This module is tri-licensed. It is available under the X11 (a.k.a. MIT)
     licence; you can also redistribute it and/or modify it under the same
