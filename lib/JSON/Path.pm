@@ -6,7 +6,7 @@ use overload '""' => \&to_string;
 no warnings;
 
 our $AUTHORITY = 'cpan:TOBYINK';
-our $VERSION   = '0.203';
+our $VERSION   = '0.204';
 our $Safe      = 1;
 
 use Carp;
@@ -79,6 +79,7 @@ sub _dive :lvalue
 	$path = [
 		$path =~ /\[(.+?)\]/g
 	] unless ref $path;
+	$path = [ map { /^'(.+)'$/ ? $1 : $_ } @$path ];
 	
 	while (@$path > 1) {
 		my $chunk = shift @$path;
@@ -179,19 +180,19 @@ BEGIN {
 	no warnings;
 	
 	our $AUTHORITY = 'cpan:TOBYINK';
-	our $VERSION   = '0.203';
+	our $VERSION   = '0.204';
 	
 	use Carp;
 	use Scalar::Util qw[blessed];
 	
 	sub new
 	{
-		return bless {
+		bless {
 			obj        => undef,
 			resultType => 'VALUE',
 			result     => [],
 			subx       => [],
-			}, $_[0];
+		}, $_[0];
 	}
 	
 	sub normalize
@@ -523,7 +524,9 @@ JSONPath expression. In scalar context, returns the number of matches.
 Like C<values>, but returns just the first value. This method is an lvalue
 sub, which means you can assign to it:
 
-  $path->value('$.name') = 'Bob';
+  my $person = { name => "Robert" };
+  my $path = JSON::Path->new('$.name');
+  $path->value($person) = "Bob";
 
 =item C<<  paths($object)  >>
 
@@ -663,7 +666,7 @@ See L<http://code.google.com/p/jsonpath/>.
 
 Copyright 2007 Stefan Goessner.
 
-Copyright 2010-2012 Toby Inkster.
+Copyright 2010-2013 Toby Inkster.
 
 This module is tri-licensed. It is available under the X11 (a.k.a. MIT)
 licence; you can also redistribute it and/or modify it under the same

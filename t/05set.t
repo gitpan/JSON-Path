@@ -1,14 +1,18 @@
 =head1 PURPOSE
 
-Test C<jpath> and C<jpath1> exported functions.
+Exercise C<< JSON::Path::set >>.
+
+=head1 SEE ALSO
+
+L<https://rt.cpan.org/Ticket/Display.html?id=83249>.
 
 =head1 AUTHOR
 
-Toby Inkster E<lt>tobyink@cpan.orgE<gt>.
+Mitsuhiro Nakamura
 
 =head1 COPYRIGHT AND LICENCE
 
-Copyright 2012-2013 Toby Inkster.
+Copyright 2013 Mitsuhiro Nakamura.
 
 This module is tri-licensed. It is available under the X11 (a.k.a. MIT)
 licence; you can also redistribute it and/or modify it under the same
@@ -16,6 +20,8 @@ terms as Perl itself.
 
 =cut
 
+use strict;
+use warnings;
 use Test::More;
 use JSON::Path -all;
 
@@ -59,16 +65,50 @@ my $object = from_json(<<'JSON');
 }
 JSON
 
-my $path1 = '$.store.book[*].title';
+my $titles = '$.store.book[*].title';
+my $jpath = JSON::Path->new($titles);
 
 is_deeply(
-	[ jpath1($object, $path1) ],
-	[ 'Sayings of the Century' ],
+	[ $jpath->values($object) ],
+	[
+		"Sayings of the Century",
+		"Sword of Honour",
+		"Moby Dick",
+		"The Lord of the Rings",
+	]
+);
+
+is(
+	$jpath->set($object => 'TBD', 2),
+	2,
 );
 
 is_deeply(
-	[ jpath($object, $path1) ],
-	[ 'Sayings of the Century', 'Sword of Honour', 'Moby Dick', 'The Lord of the Rings' ],
+	[ $jpath->values($object) ],
+	[
+		"TBD",
+		"TBD",
+		"Moby Dick",
+		"The Lord of the Rings",
+	],
 );
 
-done_testing();
+my $author = '$.store.book[2].author';
+$jpath = JSON::Path->new($author);
+
+is(
+	$jpath->value($object),
+	"Herman Melville",
+);
+
+is(
+	$jpath->set($object => 'Anon'),
+	1,
+);
+
+is(
+	$jpath->value($object),
+	'Anon',
+);
+
+done_testing;

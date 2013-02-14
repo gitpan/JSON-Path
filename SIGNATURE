@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.68.
+signed via the Module::Signature module, version 0.70.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -14,12 +14,14 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 e53eedb8af7c8d8891e9fe15a428c8b1910c9fab Changes
-SHA1 56f4fd00eedf60419953977c56e263836f805ff6 LICENSE
-SHA1 1fd1e65918330a8e7b7585a084b8fb85e46c9dba MANIFEST
-SHA1 d1fd59bc6088b08ac7d899a9b96d91601c7bc884 META.yml
-SHA1 da50d35f9bc21473691888031579fd3ad684e205 Makefile.PL
-SHA1 ab26861f50c07e7aed1ffcc53ce84bde714b9756 README
+SHA1 e05b631196fd68836b5962a301a616816cb9b2b4 COPYRIGHT
+SHA1 5ae4f124347cc1d03b27251bbcae72a86ed29e6a Changes
+SHA1 58e47fed556f626572681c48158a3ecd44ce179d HACKING
+SHA1 fc5dcce69562c96a3ead5efd737d991ce3ed4905 LICENSE
+SHA1 6c9f6df6e2179f6e9e203912e29f41f79847c476 MANIFEST
+SHA1 57484ef4962fe4808aa44216d1701fa9016bf985 META.yml
+SHA1 b9d5dd0b476253d37384aed42664179605286153 Makefile.PL
+SHA1 d3816b0223881fc0dd73bdb0f077896aa04c57e2 README
 SHA1 795372702373086f1aaed30c10097f0b5a180892 examples/eg1.pl
 SHA1 06c410f05488c1612ed66b06d3a86b2580581e4a inc/Module/AutoInstall.pm
 SHA1 8a924add836b60fb23b25c8506d45945e02f42f4 inc/Module/Install.pm
@@ -41,18 +43,20 @@ SHA1 0e0eed2e69d9583081868cf4f220068d0a018568 inc/Scalar/Util.pm
 SHA1 feb933cefe2e3762e8322bd6071a2499f3440da1 inc/YAML/Tiny.pm
 SHA1 8105c0510a773b56840995fb4dd2dc64fe9ddaee inc/unicore/Name.pm
 SHA1 36df501c7c9b73c282c5174ed54d8283b2f2cbf2 inc/utf8.pm
-SHA1 6c94a93fddae4b3eebeabb81ac828dcddcb05640 lib/JSON/Path.pm
-SHA1 7e0965179d7e31dc8dd8ba847a351a007e866cfc meta/changes.pret
+SHA1 ab4e5c34bd821739673414fcd5a29511c3f71a13 lib/JSON/Path.pm
+SHA1 141878089d98b71ba54532853a9d912336a32300 meta/changes.pret
 SHA1 96ec2fdb2b1ec03b25e42f8dd0bd18840389e497 meta/doap.pret
 SHA1 53f4e7fc9c100be16dd148417d2bfa24d89ec5f1 meta/makefile.pret
-SHA1 47e473fb9a6fd455b62aad316882c4cf997da828 t/01basic.t
-SHA1 e91c6cb9e8d7ec04dc2a6c9667d19d7550987497 t/02zeroth.t
-SHA1 a8f48e73bb772796e4f03843c60f7841fd1b66b2 t/03shortcuts.t
-SHA1 fac5129452a03be7c5e5e36527a11120f3d6d234 t/04map.t
+SHA1 89e74c29e8c4565fdb9695032c8c9e881a26646f t/01basic.t
+SHA1 a45288c6ddd02533fff5848384380107f05171cc t/02zeroth.t
+SHA1 6f4f928864eef787d9d203ee0e634b9caf5ddf89 t/03shortcuts.t
+SHA1 bde7f3333431c0de66f58b56b2c5721c77ea6b99 t/04map.t
+SHA1 a1628d87795e59f98ebed92bf748d70e424f5de0 t/05set.t
+SHA1 21857404105e104c03cd29c461db1e34c89474d7 t/06lvalue.t
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.10 (GNU/Linux)
+Version: GnuPG v1.4.11 (GNU/Linux)
 
-iEYEARECAAYFAlB4gE4ACgkQzr+BKGoqfTkf8QCfem+mnszvkKU7pp9q3Cp4npSr
-6w8An23nSBtARW52b0opZcLnVpWI4E3J
-=Sb6u
+iEYEARECAAYFAlEcq4IACgkQzr+BKGoqfTllWQCfe66vepjaeqR/yIdXpN2CgfOS
+PEgAmQHjIVkgVExkui51XpaEpLMZlJL2
+=klde
 -----END PGP SIGNATURE-----

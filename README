@@ -72,7 +72,9 @@ DESCRIPTION
         Like "values", but returns just the first value. This method is an
         lvalue sub, which means you can assign to it:
 
-          $path->value('$.name') = 'Bob';
+          my $person = { name => "Robert" };
+          my $path = JSON::Path->new('$.name');
+          $path->value($person) = "Bob";
 
     "paths($object)"
         As per "values" but instead of returning structures which match the
@@ -186,7 +188,7 @@ AUTHOR
 COPYRIGHT AND LICENCE
     Copyright 2007 Stefan Goessner.
 
-    Copyright 2010-2012 Toby Inkster.
+    Copyright 2010-2013 Toby Inkster.
 
     This module is tri-licensed. It is available under the X11 (a.k.a. MIT)
     licence; you can also redistribute it and/or modify it under the same

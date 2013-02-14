@@ -33,4 +33,4 @@ resources:
   homepage: https://metacpan.org/release/JSON-Path
   license: http://www.opensource.org/licenses/mit-license.php
   repository: https://bitbucket.org/tobyink/p5-json-path
-version: 0.203
+version: 0.204
