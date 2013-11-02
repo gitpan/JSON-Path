@@ -55,11 +55,11 @@ DESCRIPTION
     JSONPath is described at <http://goessner.net/articles/JsonPath/>.
 
   Constructor
-    "JSON::Path->new($string)"
+    `JSON::Path->new($string)`
         Given a JSONPath expression $string, returns a JSON::Path object.
 
   Methods
-    "values($object)"
+    `values($object)`
         Evaluates the JSONPath expression against an object. The object
         $object can be either a nested Perl hashref/arrayref structure, or a
         JSON string capable of being decoded by JSON::from_json.
@@ -68,37 +68,37 @@ DESCRIPTION
         the JSONPath expression. In scalar context, returns the number of
         matches.
 
-    "value($object)"
-        Like "values", but returns just the first value. This method is an
+    `value($object)`
+        Like `values`, but returns just the first value. This method is an
         lvalue sub, which means you can assign to it:
 
           my $person = { name => "Robert" };
           my $path = JSON::Path->new('$.name');
           $path->value($person) = "Bob";
 
-    "paths($object)"
-        As per "values" but instead of returning structures which match the
+    `paths($object)`
+        As per `values` but instead of returning structures which match the
         expression, returns canonical JSONPaths that point towards those
         structures.
 
-    "get($object)"
-        In list context, identical to "values", but in scalar context
-        returns the first result.
+    `get($object)`
+        In list context, identical to `values`, but in scalar context returns
+        the first result.
 
-    "set($object, $value, $limit)"
+    `set($object, $value, $limit)`
         Alters $object, setting the paths to $value. If set, then $limit
         limits the number of changes made.
 
         Returns the number of changes made.
 
-    "map($object, $coderef)"
-        Conceptually similar to Perl's "map" keyword. Executes the coderef
-        (in scalar context!) for each match of the path within the object,
-        and sets a new value from the coderef's return value. Within the
-        coderef, $_ may be used to access the old value, and $. may be used
-        to access the curent canonical JSONPath.
+    `map($object, $coderef)`
+        Conceptually similar to Perl's `map` keyword. Executes the coderef (in
+        scalar context!) for each match of the path within the object, and
+        sets a new value from the coderef's return value. Within the coderef,
+        $_ may be used to access the old value, and $. may be used to access
+        the curent canonical JSONPath.
 
-    "to_string"
+    `to_string`
         Returns the original JSONPath expression as a string.
 
         This method is usually not needed, as the JSON::Path should
@@ -109,23 +109,23 @@ DESCRIPTION
          print "I'm looking for: " . $jpath . "\n";
 
   Functions
-    The following functions are available for export, but are not exported
-    by default:
+    The following functions are available for export, but are not exported by
+    default:
 
-    "jpath($object, $path_string)"
-        Shortcut for "JSON::Path->new($path_string)->values($object)".
+    `jpath($object, $path_string)`
+        Shortcut for `JSON::Path->new($path_string)->values($object)`.
 
-    "jpath1($object, $path_string)"
-        Shortcut for "JSON::Path->new($path_string)->value($object)". Like
-        "value", it can be used as an lvalue.
+    `jpath1($object, $path_string)`
+        Shortcut for `JSON::Path->new($path_string)->value($object)`. Like
+        `value`, it can be used as an lvalue.
 
-    "jpath_map { CODE } $object, $path_string"
-        Shortcut for "JSON::Path->new($path_string)->map($object, $code)".
+    `jpath_map { CODE } $object, $path_string`
+        Shortcut for `JSON::Path->new($path_string)->map($object, $code)`.
 
 PERL SPECIFICS
     JSONPath is intended as a cross-programming-language method of searching
-    nested object structures. There are however, some things you need to
-    think about when using JSONPath in Perl...
+    nested object structures. There are however, some things you need to think
+    about when using JSONPath in Perl...
 
   JSONPath Embedded Perl Expressions
     JSONPath expressions may contain subexpressions that are evaluated using
@@ -143,11 +143,11 @@ PERL SPECIFICS
     There are some differences between the JSONPath spec and this
     implementation.
 
-    *   JSONPath uses a variable '$' to refer to the root node. This is not
-        a legal variable name in Perl, so '$root' is used instead.
+    *   JSONPath uses a variable '$' to refer to the root node. This is not a
+        legal variable name in Perl, so '$root' is used instead.
 
-    *   JSONPath uses a variable '@' to refer to the current node. This is
-        not a legal variable name in Perl, so '$_' is used instead.
+    *   JSONPath uses a variable '@' to refer to the current node. This is not
+        a legal variable name in Perl, so '$_' is used instead.
 
   Blessed Objects
     Blessed objects are generally treated as atomic values; JSON::Path will
@@ -173,10 +173,10 @@ SEE ALSO
     JSON::Schema.
 
     Similar functionality: Data::Path, Data::DPath, Data::SPath, Hash::Path,
-    Path::Resolver::Resolver::Hash, Data::Nested, Data::Hierarchy... yes,
-    the idea's not especially new. What's different is that JSON::Path uses
-    a vaguely standardised syntax with implementations in at least three
-    other programming languages.
+    Path::Resolver::Resolver::Hash, Data::Nested, Data::Hierarchy... yes, the
+    idea's not especially new. What's different is that JSON::Path uses a
+    vaguely standardised syntax with implementations in at least three other
+    programming languages.
 
 AUTHOR
     Toby Inkster <tobyink@cpan.org>.
@@ -196,21 +196,20 @@ COPYRIGHT AND LICENCE
 
   a.k.a. "The MIT Licence"
     Permission is hereby granted, free of charge, to any person obtaining a
-    copy of this software and associated documentation files (the
-    "Software"), to deal in the Software without restriction, including
-    without limitation the rights to use, copy, modify, merge, publish,
-    distribute, sublicense, and/or sell copies of the Software, and to
-    permit persons to whom the Software is furnished to do so, subject to
-    the following conditions:
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
 
-    The above copyright notice and this permission notice shall be included
-    in all copies or substantial portions of the Software.
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
 
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
 
